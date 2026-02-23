@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    container_name: card_collection_bot
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./bot_data.json:/app/bot_data.json
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Yangon
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

@@ -378,15 +378,19 @@ async def restore(update: Update, context: ContextTypes.DEFAULT_TYPE):
     save_data()
 
 async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # ၁။ global declaration ကို function ရဲ့ ထိပ်ဆုံးမှာ ထားပါ
+    global bot_data
+    
     user_id = str(update.effective_user.id)
     
+    # ယခု bot_data ကို အသုံးပြု၍ ရပါပြီ (အပေါ်မှာ global ကြေညာခဲ့လို့ပါ)
     if user_id in bot_data['pending_uploads'] and bot_data['pending_uploads'][user_id] == 'restore':
         try:
             file = await context.bot.get_file(update.message.document.file_id)
             await file.download_to_drive('temp_restore.json')
             
             with open('temp_restore.json', 'r', encoding='utf-8') as f:
-                global bot_data
+                # ဤနေရာမှ 'global bot_data' ကို ဖယ်ထုတ်လိုက်ပါ (အပေါ်မှာ ထားခဲ့ပြီးသားဖြစ်လို့)
                 bot_data = json.load(f)
             
             save_data()

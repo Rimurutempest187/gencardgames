@@ -1,0 +1,22 @@
+[Unit]
+Description=Card Collection Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+User=cardbot
+WorkingDirectory=/opt/card_collection_bot
+ExecStart=/usr/bin/python3 /opt/card_collection_bot/bot.py
+Restart=always
+RestartSec=10
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+
+# Logging
+StandardOutput=append:/var/log/cardbot/output.log
+StandardError=append:/var/log/cardbot/error.log
+
+[Install]
+WantedBy=multi-user.target
